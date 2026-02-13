@@ -4,6 +4,7 @@ export default function Quiz()
 {       
     const [BonneRep, setBonneRep] = useState(0)
     const [IndexQuestion, setIndexQuestion] = useState(0)
+    const [etatQuestionnaire, setEtatQuestionnaire] = useState(true)
 
     function HandleReponse(reponse)
     {
@@ -13,17 +14,34 @@ export default function Quiz()
         {
             setBonneRep(BonneRep + 1)
         }
+
         if(IndexQuestion + 1 < questionsJudo.length)
         {
             setIndexQuestion(IndexQuestion + 1) // voir pour gérer le cas ou on dépasse
         }
+        else
+        {
+            setEtatQuestionnaire(false)
+        }
     }
 
-    console.log(IndexQuestion)
-    return(
+    let affichage;
+    if (etatQuestionnaire)
+    {
+        affichage =
         <>
         <NombreBonneReponse BonneRep={BonneRep}/>
         <BoutonReponse props={questionsJudo[IndexQuestion]} onClick={HandleReponse}/>
+        </> 
+    }
+    else
+    {
+        affichage = <NombreBonneReponse BonneRep={BonneRep}/>
+    }
+
+    return(
+        <>
+        {affichage}
         </>
     )
 }
