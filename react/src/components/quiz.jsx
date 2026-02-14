@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {questionsJudo} from '../data/dataQuiz';
 
 export default function Quiz()
 {       
@@ -6,10 +7,10 @@ export default function Quiz()
     const [IndexQuestion, setIndexQuestion] = useState(0)
     const [etatQuestionnaire, setEtatQuestionnaire] = useState(true)
 
+
     function HandleReponse(reponse)
     {
-        console.log("L'utilisateur a cliqué sur :", reponse);
-        console.log(questionsJudo[IndexQuestion].correctAnswer)
+
         if(reponse == questionsJudo[IndexQuestion].correctAnswer)
         {
             setBonneRep(BonneRep + 1)
@@ -17,7 +18,7 @@ export default function Quiz()
 
         if(IndexQuestion + 1 < questionsJudo.length)
         {
-            setIndexQuestion(IndexQuestion + 1) // voir pour gérer le cas ou on dépasse
+            setIndexQuestion(IndexQuestion + 1) 
         }
         else
         {
@@ -34,9 +35,12 @@ export default function Quiz()
         <BoutonReponse props={questionsJudo[IndexQuestion]} onClick={HandleReponse}/>
         </> 
     }
-    else
+    else // Questionnaire fini
     {
-        affichage = <NombreBonneReponse BonneRep={BonneRep}/>
+        let scoreSur10 = (BonneRep / questionsJudo.length) * 10;
+        let nbErreurs = questionsJudo.length - BonneRep;
+        affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs} erreurs</p></>
+        //afficher une bouton pour revenir a la page principale
     }
 
     return(
@@ -58,38 +62,24 @@ export function NombreBonneReponse({BonneRep})
 }
 
 export function BoutonReponse({props, onClick})
-{
-    console.log(props.question)
+{   
+    console.log(props)
+    var affichage = 
+    <>
+    {props.options.map((value,index) =>
+    <button key={index} onClick={() => onClick(value)}>{value}</button> )}
+    </>
+    console.log(props.question) // éléments de la question
+
     return(
         <>
         <p>{props.question}</p>
-        <button onClick={() => onClick(props.options[0])}>{props.options[0]}</button>
-        <button onClick={() => onClick(props.options[1])}>{props.options[1]}</button>
-        <button onClick={() => onClick(props.options[2])}>{props.options[2]}</button>
-        <button onClick={() => onClick(props.options[3])}>{props.options[3]}</button>
+        {affichage}
         </>
+
     )
 }
 
 
 
-const questionsJudo = [
-  {
-    id: 1,
-    question: "Comment appelle-t-on le professeur de Judo ?",
-    options: ["Sempai", "Sensei", "Tori", "Uke"],
-    correctAnswer: "Sensei"
-  },
-  {
-    id: 2,
-    question: "Quelle est la couleur de la ceinture après la blanche ?",
-    options: ["Jaune", "Orange", "Verte", "Bleue"],
-    correctAnswer: "Jaune"
-  },
-  {
-    id: 3,
-    question: "Que signifie le mot 'Judo' ?",
-    options: ["Voie de la souplesse", "Art du combat", "Esprit de groupe", "Énergie vitale"],
-    correctAnswer: "Voie de la souplesse"
-  }
-];
+

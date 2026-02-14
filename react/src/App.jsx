@@ -5,11 +5,10 @@ import './App.css'
 import Quiz from './components/quiz.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <p>Test</p>
+    <p>DojoNum</p>
     <Quiz/>
     </>
   )
