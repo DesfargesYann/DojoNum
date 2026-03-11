@@ -26,6 +26,20 @@ export default function Quiz()
         }
     }
 
+    function RelancerQuiz()
+    {
+        function HandleChange() // function simple pour relancer le quiz sur la V1
+        {
+            setBonneRep(0)
+            setIndexQuestion(0)
+            setEtatQuestionnaire(true)
+        }
+
+        return(
+            <><button onClick={HandleChange}>Relancer le quiz</button></>
+        )
+    }
+
     let affichage;
     if (etatQuestionnaire)
     {
@@ -39,7 +53,8 @@ export default function Quiz()
     {
         let scoreSur10 = (BonneRep / questionsJudo.length) * 10;
         let nbErreurs = questionsJudo.length - BonneRep;
-        affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs} erreurs</p></>
+        affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs}  
+        erreurs </p><RelancerQuiz/></>
         //afficher une bouton pour revenir a la page principale
     }
 
@@ -79,6 +94,8 @@ export function BoutonReponse({props, onClick})
 
     )
 }
+
+
 
 
 

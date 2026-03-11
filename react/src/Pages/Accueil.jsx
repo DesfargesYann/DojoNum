@@ -9,7 +9,6 @@ export function Accueil()
 {
     return(
         <>
-        <Header/>
         <Quiz/>
         <Footer/>
         </>
