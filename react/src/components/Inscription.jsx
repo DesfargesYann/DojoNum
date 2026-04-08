@@ -1,14 +1,41 @@
 import Box from '@mui/material/Box';
-
 import TextField from '@mui/material/TextField';
 
 
+import { useState } from 'react';
+
 export default function Inscription()
 {
+    const [formData, setFormData] = useState({
+        Nom: '',
+        Prenom: '',
+        Email: '',
+        Grade: '1', 
+        Mdp: '',
+        VerifMdp: ''})
+
+
+        const handleSubmit = (e) => {
+            console.log(e)
+            e.preventDefault(); // rechargement de la page
+
+            const { name, value } = e.target;
+            setFormData({
+                ...formData, 
+                [name]: value 
+            })
+
+            if (formData.Mdp !== formData.VerifMdp) {
+                alert("Les mot de passes ne sont pas les mêmes ");
+                return;
+            }
+            console.log(formData);
+        };
+
     return (
         <>
 
-{/*             <Box
+{             <Box
             component="form"
             sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}
             noValidate
@@ -30,10 +57,27 @@ export default function Inscription()
             autoComplete="current-password"
             variant="filled"
             />
-            </Box> */}
+            </Box> }
+
+
+
+        
+        <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        }}>
 
         <h1>Inscription</h1>
-        <form >
+
+        <form onSubmit={handleSubmit} style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        maxWidth: '300px',
+        gap: '10px' 
+         }}>
             <p>Email :</p>
             <input required type='email' name="Email" />
             <p>Nom :</p>
@@ -58,6 +102,7 @@ export default function Inscription()
             <p>test</p>
             <p>test</p>
         </form>
+        </div>
         </>
     )
 }

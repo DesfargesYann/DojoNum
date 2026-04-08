@@ -1,22 +1,32 @@
-import { useState } from "react";
-import {questionsJudo} from '../data/dataQuiz';
+import { useState, useEffect } from "react";
+import {questionsJudo} from '../data/dataQuiz'; // pour locacl
+
+import { getQuestionsQuiz } from '../api/questionService';
 
 export default function Quiz()
 {       
     const [BonneRep, setBonneRep] = useState(0)
     const [IndexQuestion, setIndexQuestion] = useState(0)
     const [etatQuestionnaire, setEtatQuestionnaire] = useState(true)
+    const [questions, setQuestions] = useState([]); // permet de stocker les datas qu'on récupère de l'API
 
+    useEffect(() => {
+    const fetchQuestions = async () => {
+        const data = await getQuestionsQuiz(6); // voir pour changer le 6 quand on aura
+        setQuestions(data); // on récupère les questions de l'API opur un quiz de niveau 6
+    };
+    fetchQuestions();
+    }, []); 
 
     function HandleReponse(reponse)
     {
 
-        if(reponse == questionsJudo[IndexQuestion].correctAnswer)
+        if(reponse === questions[IndexQuestion].rep_1)
         {
             setBonneRep(BonneRep + 1)
         }
 
-        if(IndexQuestion + 1 < questionsJudo.length)
+        if(IndexQuestion + 1 < questions.length)
         {
             setIndexQuestion(IndexQuestion + 1) 
         }
@@ -41,18 +51,23 @@ export default function Quiz()
     }
 
     let affichage;
-    if (etatQuestionnaire)
+    if (questions.length === 0) // chargement en cours
     {
+        affichage = <p>Chargement...</p>
+    }
+    else if (etatQuestionnaire)
+    {
+        console.log(questions)
         affichage =
         <>
         <NombreBonneReponse BonneRep={BonneRep}/>
-        <BoutonReponse props={questionsJudo[IndexQuestion]} onClick={HandleReponse}/>
+        <BoutonReponse props={questions[IndexQuestion]} onClick={HandleReponse}/>
         </> 
     }
     else // Questionnaire fini
     {
-        let scoreSur10 = (BonneRep / questionsJudo.length) * 10;
-        let nbErreurs = questionsJudo.length - BonneRep;
+        let scoreSur10 = (BonneRep / questions.length) * 10;
+        let nbErreurs = questions.length - BonneRep;
         affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs}  
         erreurs </p><RelancerQuiz/></>
         //afficher une bouton pour revenir a la page principale
@@ -61,6 +76,9 @@ export default function Quiz()
     return(
         <>
         {affichage}
+        <p>test</p>
+        <p>test</p>
+        <p>test</p>
         </>
     )
 }
@@ -78,20 +96,17 @@ export function NombreBonneReponse({BonneRep})
 
 export function BoutonReponse({props, onClick})
 {   
-    console.log(props)
-    var affichage = 
-    <>
-    {props.options.map((value,index) =>
-    <button key={index} onClick={() => onClick(value)}>{value}</button> )}
-    </>
-    console.log(props.question) // éléments de la question
-
+    const options = [props.rep_1, props.rep_2, props.rep_3, props.rep_4, props.rep_5, props.rep_6]
+        .filter(rep => rep !== null);
+    const src = '/images/' + props.image_id;
     return(
         <>
-        <p>{props.question}</p>
-        {affichage}
+        <p>{props.enonce_question}</p>
+        <img src={src} width="250"/>
+        {options.map((value, index) =>
+            <button key={index} onClick={() => onClick(value)}>{value}</button>
+        )}
         </>
-
     )
 }
 
