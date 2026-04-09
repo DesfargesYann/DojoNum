@@ -5,10 +5,11 @@ import { getQuestionsQuiz } from '../api/questionService';
 
 export default function Quiz()
 {       
-    const [BonneRep, setBonneRep] = useState(0)
-    const [IndexQuestion, setIndexQuestion] = useState(0)
-    const [etatQuestionnaire, setEtatQuestionnaire] = useState(true)
+    const [BonneRep, setBonneRep] = useState(0);
+    const [IndexQuestion, setIndexQuestion] = useState(0);
+    const [etatQuestionnaire, setEtatQuestionnaire] = useState(true);
     const [questions, setQuestions] = useState([]); // permet de stocker les datas qu'on récupère de l'API
+    const [refresh, setRefresh] = useState(0); // va permettre de relancer l'appel de l'API dans le useEffect
 
     useEffect(() => {
     const fetchQuestions = async () => {
@@ -16,7 +17,7 @@ export default function Quiz()
         setQuestions(data); // on récupère les questions de l'API opur un quiz de niveau 6
     };
     fetchQuestions();
-    }, []); 
+    }, [refresh]); // le refresh permet de relancer le useEffect quand il change
 
     function HandleReponse(reponse)
     {
@@ -40,9 +41,10 @@ export default function Quiz()
     {
         function HandleChange() // function simple pour relancer le quiz sur la V1
         {
-            setBonneRep(0)
-            setIndexQuestion(0)
-            setEtatQuestionnaire(true)
+            setBonneRep(0);
+            setIndexQuestion(0);
+            setEtatQuestionnaire(true);
+            setRefresh(refresh + 1); // refresh change donc on rappel useEffect
         }
 
         return(
