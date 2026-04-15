@@ -6,6 +6,7 @@ const sequelize = require('./config/db');
 
 const questionRoutes = require('./routes/questionRoutes');
 const utilisateurRoutes = require('./routes/utilisateurRoutes');
+const resultatRoutes = require('./routes/resultatRoutes');
 
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(express.json());
 
 app.use('/api/questions', questionRoutes);
 app.use('/api/utilisateur', utilisateurRoutes);
+app.use('/api/resultat', resultatRoutes);
+
 
 sequelize.authenticate()
   .then(() => {
