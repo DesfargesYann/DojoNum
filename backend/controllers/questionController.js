@@ -1,4 +1,4 @@
-const Question = require('../models/question');
+const Question = require('../models/Question');
 const sequelize = require('../config/db');
 
 const getQuestionsQuiz = async (req, res) => {
