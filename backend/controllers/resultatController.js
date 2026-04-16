@@ -1,8 +1,6 @@
 const Resultat = require('../models/Resultats');
 const sequelize = require('../config/db');
 
-
-// A CHANGER POUR L ID DANS L'URL
 const getResultatQuizByUtilisateur = async (req , res) => {
     try{
         const id_utilisateur = parseInt(req.params.id_utilisateur);

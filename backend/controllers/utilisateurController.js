@@ -1,6 +1,7 @@
 const Utilisateur = require('../models/Utilisateurs');
 const sequelize = require('../config/db');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const createUtilisateur = async (req, res) => {
   try {
@@ -44,17 +45,34 @@ const loginUtilisateur = async(req, res) => {
       }
     )
 
+    if (!utilisateur)
+    {
+      return res.status(404).json({message: 'Utilisateur non trouvé'});
+      //return pour stopper
+    }
+
     const passwordBDD = utilisateur.password;
     const comparaison = await bcrypt.compare(passwordRecup, passwordBDD);
 
-    if (!utilisateur)
-      {
-        return res.status(404).json({message: 'Utilisateur non trouvé'});
-        //return pour stopper
-      }
+
     if (comparaison)
       {
-        res.status(200).json(utilisateur);    
+          const token = jwt.sign(
+          {id: utilisateur.id},
+          process.env.JWT_SECRET,
+          {expiresIn: '2h'}
+        )
+
+        res.status(200).json({
+          token,
+          utilisateur: {
+            id: utilisateur.id,
+            email: utilisateur.email,
+            nom: utilisateur.nom,
+            prenom: utilisateur.prenom,
+            ceinture: utilisateur.ceinture,
+          }
+        });    
       }
     else
       {
