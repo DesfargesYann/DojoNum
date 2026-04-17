@@ -1,108 +1,87 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import React, { useState } from 'react';
 
+const Inscription = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    prenom: '',
+    nom: '',
+    ceinture: '1', 
+    password: '',
+    confirmPassword: ''
+  });
 
-import { useState } from 'react';
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
-export default function Inscription()
-{
-    const [formData, setFormData] = useState({
-        Nom: '',
-        Prenom: '',
-        Email: '',
-        Grade: '1', 
-        Mdp: '',
-        VerifMdp: ''})
+  // 3. Gestion de la soumission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert("Les mots de passe ne correspondent pas !");
+      return;
+    }
 
+    console.log("Données pour le back", formData);
+    alert(`Bienvenue ${formData.prenom} ! Vous êtes bien inscrit sur Dojonum.`);
+  };
 
-        const handleSubmit = (e) => {
-            console.log(e)
-            e.preventDefault(); // rechargement de la page
-
-            const { name, value } = e.target;
-            setFormData({
-                ...formData, 
-                [name]: value 
-            })
-
-            if (formData.Mdp !== formData.VerifMdp) {
-                alert("Les mot de passes ne sont pas les mêmes ");
-                return;
-            }
-            console.log(formData);
-        };
-
-    return (
-        <>
-
-{             <Box
-            component="form"
-            sx={{ '& .MuiTextField-root': { m: 1, width: '25ch' } }}
-            noValidate
-            autoComplete="off"
-            >
+  return (
+    <div style={styles.container}>
+      <h2>Inscription Dojonum</h2>
+      <form onSubmit={handleSubmit} style={styles.form}>
         
-            <TextField
-            required
-            type='email'
-            id="outlined-required"
-            label="Obligatoire"
-            defaultValue="Email"
-            />
+        <input 
+          type="text" name="prenom" placeholder="Prénom" 
+          value={formData.prenom} onChange={handleChange} required 
+        />
 
-            <TextField
-            id="filled-password-input"
-            label="Mot de passe"
-            type="password"
-            autoComplete="current-password"
-            variant="filled"
-            />
-            </Box> }
+        <input 
+          type="text" name="nom" placeholder="Nom" 
+          value={formData.nom} onChange={handleChange} required 
+        />
 
+        <input 
+          type="email" name="email" placeholder="Email" 
+          value={formData.email} onChange={handleChange} required 
+        />
 
+        <label>Quelle est ta ceinture ?</label>
+        <select name="ceinture" value={formData.ceinture} onChange={handleChange}>
+          <option value="1">Blanche</option>
+          <option value="2">Jaune</option>
+          <option value="3">Orange</option>
+          <option value="4">Verte</option>
+          <option value="5">Bleue</option>
+          <option value="6">Marron</option>
+          <option value="7">Noire</option>
+        </select>
 
-        
-        <div style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        }}>
+        <input 
+          type="password" name="password" placeholder="Mot de passe" 
+          value={formData.password} onChange={handleChange} required 
+        />
 
-        <h1>Inscription</h1>
+        <input 
+          type="password" name="confirmPassword" placeholder="Confirmer le mot de passe" 
+          value={formData.confirmPassword} onChange={handleChange} required 
+        />
 
-        <form onSubmit={handleSubmit} style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        maxWidth: '300px',
-        gap: '10px' 
-         }}>
-            <p>Email :</p>
-            <input required type='email' name="Email" />
-            <p>Nom :</p>
-            <input required name="Nom" />
-            <p>Prénom :</p>
-            <input required name="Prenom" />
-            <p>Grade</p>
-            <select >
-                <option value="1">Ceinture Blanche</option>
-                <option value="2">Ceinture Jaune</option>
-                <option value="3">Ceinture Orange</option>
-                <option value="4">Ceinture Verte</option>
-                <option value="5">Ceinture Bleue</option>
-                <option value="6">Ceinture Marron</option>
-                <option value="7">Ceinture Noire</option>
-            </select>
-            <p>Mot de passe :</p>
-            <input type='password' required name="Mdp" />
-            <p>Valider le mot de passe :</p>
-            <input required type='password' name="VerifMdp" />
-            <button type="submit">S'inscrire</button>
-            <p>test</p>
-            <p>test</p>
-        </form>
-        </div>
-        </>
-    )
-}
+        <button type="submit" style={styles.button}>S'inscrire</button>
+      </form>
+    </div>
+  );
+};
+
+const styles = {
+  container: { maxWidth: '400px', margin: '50px auto', textAlign: 'center', fontFamily: 'Arial' },
+  form: { display: 'flex', flexDirection: 'column', gap: '15px' },
+  button: { backgroundColor: '#2ecc71', color: 'white', padding: '10px', border: 'none', cursor: 'pointer', borderRadius: '5px' }
+};
+
+export default Inscription;
