@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { createUtilisateur } from '../api/questionService';
 
 const Inscription = () => {
   const [formData, setFormData] = useState({
@@ -18,8 +19,7 @@ const Inscription = () => {
     });
   };
 
-  // 3. Gestion de la soumission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (formData.password !== formData.confirmPassword) {
@@ -27,8 +27,18 @@ const Inscription = () => {
       return;
     }
 
-    console.log("Données pour le back", formData);
-    alert(`Bienvenue ${formData.prenom} ! Vous êtes bien inscrit sur Dojonum.`);
+    try {
+        await createUtilisateur({
+            email: formData.email,
+            prenom: formData.prenom,
+            nom: formData.nom,
+            ceinture: parseInt(formData.ceinture),
+            password: formData.password,
+        });
+        alert(`Bienvenue ${formData.prenom} ! Vous êtes bien inscrit sur Dojonum.`);
+    } catch (error) {
+        alert("Erreur lors de l'inscription, cet email est peut-être déjà utilisé.");
+    }
   };
 
   return (

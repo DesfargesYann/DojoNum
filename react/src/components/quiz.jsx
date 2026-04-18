@@ -65,7 +65,7 @@ export default function Quiz({niveauQuiz = 6, setNiveauChoisi })
     {
         let scoreSur10 = (BonneRep / questions.length) * 10;
         let nbErreurs = questions.length - BonneRep;
-        affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs}  
+        affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs + ' '}  
         erreurs </p><RelancerQuiz onRelancer={HandleRelancer} setNiveauChoisi={setNiveauChoisi}/></>
         //afficher un bouton pour revenir a la page principale
     }
@@ -100,7 +100,8 @@ export function BoutonReponse({props, onClick})
         setOptions(melange);
     }, [props]);
 
-    const src = '/images/' + props.image_id;
+    const src = '/images/' + props.niveau_question + '/' + props.image_id;
+    console.log(src);
 
     return(
         <>

@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { loginUtilisateur } from '../api/questionService';
+import { useNavigate } from 'react-router-dom';
+
 
 const Connexion = () => {
+
+  const connexion = useNavigate()
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
@@ -11,9 +16,20 @@ const Connexion = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Tentative de connexion avec :", loginData);
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+          const data = await loginUtilisateur({
+              email: loginData.email,
+              password: loginData.password,
+          });
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('utilisateur', JSON.stringify(data.utilisateur));
+          alert(`Vous êtes bien connecté !`);
+          connexion('/');
+      } catch (error) {
+          alert("Email ou mot de passe incorrect.");
+      }
   };
 
   return (

@@ -9,18 +9,23 @@ export const getQuestionsQuiz = async (niveau, limite = 10) => {
   return response.data;
 };
 
-export const getResultatQuizByUtilisateur = async (id_utilisateur, niveau = 5, limite = 3) =>
+export const getResultatQuizByUtilisateur = async (niveau = 5, limite = 3, token) =>
 {
-  const response = await axios.get(`${API_URL}/resultat/${id_utilisateur}`, 
+  const response = await axios.get(`${API_URL}/resultat/`, 
     {
-      params: { niveau, limite}
+      params: { niveau, limite},
+      headers: { Authorization: `Bearer ${token}` }
     });
   return response.data;
 };
 
-export const  createResultat = async (resultData) => 
+export const  createResultat = async (resultData, token) => 
 {
-  const response = await axios.post(`${API_URL}/resultat/`, resultData);
+  const response = await axios.post(`${API_URL}/resultat/`, resultData,
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  );
   return response.data;
 };
 
@@ -35,4 +40,15 @@ export const  loginUtilisateur = async (resultData) =>
 {
   const response = await axios.post(`${API_URL}/utilisateur/login`, resultData);
   return response.data;
+};
+
+export const getToken = () => localStorage.getItem('token');
+
+export const getUtilisateur = () => JSON.parse(localStorage.getItem('utilisateur'));
+
+export const estConnecte = () => !!localStorage.getItem('token');
+
+export const deconnexion = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('utilisateur');
 };
