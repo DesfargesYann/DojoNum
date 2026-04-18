@@ -103,3 +103,112 @@ body {
 .nav-icon {
     font-size: 24px;
 }
+
+
+.resultats-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 16px;
+    width: 100%;
+}
+
+.resultats-selecteurs {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.resultats-selecteurs select {
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #1976d2;
+    border-radius: 8px;
+    background-color: white;
+    color: #1976d2;
+    font-size: 14px;
+    cursor: pointer;
+    appearance: none;
+    text-align: center;
+}
+
+.panneau-moyenne {
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.panneau-moyenne p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1976d2;
+}
+
+.panneau-dernier {
+    background-color: #e3f2fd;
+    border-radius: 16px;
+    padding: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid #1976d2;
+}
+
+.liste-resultats {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    max-width: 400px;
+}
+
+.carte-resultat {
+    background-color: white;
+    border-radius: 12px;
+    padding: 14px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.panneau-dernier p {
+    color: #1976d2;
+}
+
+.carte-resultat p {
+    color: #333;
+}
+
+
+.presentation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    gap: 16px;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.presentation-container h2 {
+    font-size: 22px;
+    font-weight: 500;
+    color: #1976d2;
+}
+
+.presentation-container img {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.presentation-container p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #444;
+}

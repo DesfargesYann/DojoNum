@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getQuestionsQuiz } from '../api/questionService';
 import ChoixNiveau from "./ChoixNiveau";
+import { createResultat, getToken, estConnecte } from "../api/questionService";
 
 
 export default function Quiz({niveauQuiz = 6, setNiveauChoisi })
@@ -10,6 +11,8 @@ export default function Quiz({niveauQuiz = 6, setNiveauChoisi })
     const [etatQuestionnaire, setEtatQuestionnaire] = useState(true);
     const [questions, setQuestions] = useState([]); // permet de stocker les datas qu'on récupère de l'API
     const [refresh, setRefresh] = useState(0); // va permettre de relancer l'appel de l'API dans le useEffect
+    const token = getToken();
+    const connecte = estConnecte();
 
     useEffect(() => {
     const fetchQuestions = async () => {
@@ -19,21 +22,36 @@ export default function Quiz({niveauQuiz = 6, setNiveauChoisi })
     fetchQuestions();
     }, [refresh]); // le refresh permet de relancer le useEffect quand il change
 
-    function HandleReponse(reponse)
+    async function HandleReponse(reponse)
     {
+        let bonneRepActuelle = BonneRep;
 
         if(reponse === questions[IndexQuestion].rep_1)
         {
-            setBonneRep(BonneRep + 1)
+            bonneRepActuelle = bonneRepActuelle + 1;
+            setBonneRep(BonneRep + 1);
         }
 
         if(IndexQuestion + 1 < questions.length)
         {
-            setIndexQuestion(IndexQuestion + 1) 
+            setIndexQuestion(IndexQuestion + 1);
         }
         else
         {
-            setEtatQuestionnaire(false)
+            if(connecte)
+            {
+                try {
+                    const data = {
+                        nb_bonnes_reps: bonneRepActuelle,
+                        nb_questions: questions.length,
+                        niveau_quiz: niveauQuiz,
+                    }
+                    await createResultat(data, token);
+                } catch(error) {
+                    console.log('Erreur enregistrement résultat', error);
+                }
+            }
+            setEtatQuestionnaire(false);
         }
     }
 

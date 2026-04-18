@@ -13,7 +13,7 @@ export const getResultatQuizByUtilisateur = async (niveau = 5, limite = 3, token
 {
   const response = await axios.get(`${API_URL}/resultat/`, 
     {
-      params: { niveau, limite},
+      params: { niveau_quiz: niveau, limite},
       headers: { Authorization: `Bearer ${token}` }
     });
   return response.data;
