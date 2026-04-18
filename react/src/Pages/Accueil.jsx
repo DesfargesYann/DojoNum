@@ -9,7 +9,7 @@ export function Accueil()
 {
     return(
         <>
-        <Quiz/>
+        <Header/>
         <Footer/>
         </>
     )

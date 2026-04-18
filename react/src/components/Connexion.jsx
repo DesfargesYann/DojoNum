@@ -44,7 +44,6 @@ const Connexion = () => {
   );
 };
 
-// Styles rapides en bas du fichier
 const styles = {
   container: { maxWidth: '400px', margin: '50px auto', fontFamily: 'Arial' },
   form: { display: 'flex', flexDirection: 'column', gap: '15px' },

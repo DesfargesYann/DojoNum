@@ -33,7 +33,7 @@ const Inscription = () => {
 
   return (
     <div style={styles.container}>
-      <h2>Inscription Dojonum</h2>
+      <h2>Inscription</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
         
         <input 

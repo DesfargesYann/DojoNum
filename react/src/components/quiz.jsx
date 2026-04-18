@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { getQuestionsQuiz } from '../api/questionService';
+import ChoixNiveau from "./ChoixNiveau";
 
-export default function Quiz({niveauQuiz = 6})
+
+export default function Quiz({niveauQuiz = 6, setNiveauChoisi })
 {       
     const [BonneRep, setBonneRep] = useState(0);
     const [IndexQuestion, setIndexQuestion] = useState(0);
@@ -64,7 +66,7 @@ export default function Quiz({niveauQuiz = 6})
         let scoreSur10 = (BonneRep / questions.length) * 10;
         let nbErreurs = questions.length - BonneRep;
         affichage = <><p>votre score est de :</p><p>{scoreSur10} sur 10</p><p>Vous avez fait {nbErreurs}  
-        erreurs </p><RelancerQuiz onRelancer={HandleRelancer}/></>
+        erreurs </p><RelancerQuiz onRelancer={HandleRelancer} setNiveauChoisi={setNiveauChoisi}/></>
         //afficher un bouton pour revenir a la page principale
     }
 
@@ -115,11 +117,12 @@ export function BoutonReponse({props, onClick})
     )
 }
 
-export function RelancerQuiz({onRelancer})
+export function RelancerQuiz({onRelancer, setNiveauChoisi})
 {
     return (
         <>
         <button onClick={onRelancer}>Relancer le quiz</button>
+        <button onClick={() => setNiveauChoisi(null)}>Choisir le niveau</button>
         </>
     )
 }
