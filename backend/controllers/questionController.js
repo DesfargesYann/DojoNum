@@ -8,7 +8,7 @@ const getQuestionsQuiz = async (req, res) => {
 
     const questions = await Question.findAll({
       where: { niveau_question: niveau },
-      order: sequelize.literal('RAND()'),  // ordre aléatoire côté SQL
+      order: sequelize.literal('RAND()'), 
       limit: limite,
     });
 

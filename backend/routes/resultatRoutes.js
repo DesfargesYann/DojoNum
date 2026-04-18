@@ -4,7 +4,7 @@ const { getResultatQuizByUtilisateur, createResultat } = require('../controllers
 const authMiddleware = require('../middleware/authMiddleware');
 
 
-router.get('/:id_utilisateur', authMiddleware, getResultatQuizByUtilisateur);
+router.get('/', authMiddleware, getResultatQuizByUtilisateur);
 router.post('/', authMiddleware, createResultat);
 
 module.exports = router;

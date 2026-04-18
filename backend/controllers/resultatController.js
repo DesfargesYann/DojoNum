@@ -3,9 +3,9 @@ const sequelize = require('../config/db');
 
 const getResultatQuizByUtilisateur = async (req , res) => {
     try{
-        const id_utilisateur = parseInt(req.params.id_utilisateur);
-        const niveau_quiz = parseInt(req.params.niveau_quiz) || 5;
-        const limite =  parseInt(req.params.limite) || 3 ;
+        const id_utilisateur = req.utilisateur.id;
+        const niveau_quiz = parseInt(req.query.niveau_quiz) || 5;
+        const limite =  parseInt(req.query.limite) || 3 ;
 
         const resultat = await Resultat.findAll(
             {
@@ -27,7 +27,6 @@ const createResultat = async (req, res) =>
 {
     try{
         const {
-            id_utilisateur,
             nb_bonnes_reps,
             nb_questions,
             niveau_quiz,
@@ -35,7 +34,7 @@ const createResultat = async (req, res) =>
 
         const resultat = await Resultat.create(
             {
-                id_utilisateur:  id_utilisateur,
+                id_utilisateur:  req.utilisateur.id,
                 nb_bonnes_reps : nb_bonnes_reps,
                 nb_questions: nb_questions,
                 niveau_quiz : niveau_quiz,

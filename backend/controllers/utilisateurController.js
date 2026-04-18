@@ -23,7 +23,14 @@ const createUtilisateur = async (req, res) => {
       password : PasswordHashe,
     })
 
-    res.status(201).json(utilisateur);
+    res.status(201).json(
+      {
+      email: email,
+      nom: nom,
+      prenom: prenom,
+      ceinture: ceinture,
+      }
+    );
   }
   catch (error)
   {
