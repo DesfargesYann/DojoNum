@@ -14,6 +14,7 @@ const getResultatQuizByUtilisateur = async (req , res) => {
                     niveau_quiz: niveau_quiz,
                 },
                 limit: limite,
+                order: [['id_resultat', 'DESC']]
             }
         )
         res.status(200).json(resultat)
