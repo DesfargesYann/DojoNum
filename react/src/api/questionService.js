@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 //const API_URL = 'http://localhost:3000/api'; // chemin local
-const API_URL = 'https://dojonum-production.up.railway.app' // chemin externe
+const API_URL = 'https://dojonum-production.up.railway.app/api' // chemin externe
 
 export const getQuestionsQuiz = async (niveau, limite = 10) => {
   const response = await axios.get(`${API_URL}/questions/quiz`, {
